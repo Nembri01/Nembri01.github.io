@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--PAGE-START-->
+<title>Riccardo Nembri Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Riccardo Nembri: tecnico OT/IT. Automazione industriale (Siemens TIA Portal, robot ABB e Stäubli, visione Keyence) e software per la produzione.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: an engineering sheet. Header like a drawing title block, ladder-logic hero,
+   projects as rows with a machine nameplate on the right, grouped by area. */
+:root {
+  --paper: #eef1f0;
+  --panel: #fbfcfc;
+  --ink: #15191c;
+  --muted: #56626b;
+  --line: #c8d0d2;
+  --line-strong: #9aa6ab;
+  --accent: #c8440c;
+  --accent-soft: #f6dccd;
+  --ok: #2b7448;
+  --ok-soft: #d6eadc;
+  --warn: #8a5a00;
+  --warn-soft: #f3e4c2;
+  --f-display: "Barlow Semi Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --wrap: 1120px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #101316; --panel: #171c20; --ink: #e5e9eb; --muted: #919ca4;
+    --line: #2a3238; --line-strong: #46525a; --accent: #ff7a3d; --accent-soft: #3a2116;
+    --ok: #6cc893; --ok-soft: #173023; --warn: #e5b45a; --warn-soft: #33270f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #101316; --panel: #171c20; --ink: #e5e9eb; --muted: #919ca4;
+  --line: #2a3238; --line-strong: #46525a; --accent: #ff7a3d; --accent-soft: #3a2116;
+  --ok: #6cc893; --ok-soft: #173023; --warn: #e5b45a; --warn-soft: #33270f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 16px/1.6 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.label {
+  font: 500 12px/1.3 var(--f-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- top bar ---------- */
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--paper);
+}
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .wrap { display: flex; align-items: center; gap: 24px; padding-block: 12px; }
+.mono-mark {
+  font: 700 18px/1 var(--f-display); letter-spacing: .02em; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.mono-mark span.box {
+  display: inline-grid; place-items: center; width: 30px; height: 30px;
+  border: 1.5px solid var(--ink); font-size: 14px;
+}
+.topbar nav { display: flex; gap: 20px; margin-left: auto; }
+.topbar nav a { text-decoration: none; font-size: 14px; color: var(--muted); }
+.topbar nav a:hover { color: var(--ink); }
+.lang { display: inline-flex; border: 1px solid var(--line-strong); }
+.lang button {
+  font: 500 12px/1 var(--f-mono); letter-spacing: .06em; padding: 7px 10px;
+  background: transparent; color: var(--muted); border: 0; cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+@media (max-width: 640px) { .topbar nav { display: none; } .lang { margin-left: auto; } }
+
+/* ---------- hero ---------- */
+.hero .wrap {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 48px; align-items: center; padding-block: 64px 40px;
+}
+.hero h1 { font-size: clamp(2.6rem, 6vw, 4.4rem); font-weight: 700; letter-spacing: -.01em; }
+.hero .role { margin-top: 14px; font: 600 1.25rem/1.3 var(--f-display); color: var(--accent); }
+.hero .pitch { margin-top: 20px; max-width: 58ch; font-size: 1.075rem; color: var(--ink); }
+.hero .cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px;
+  font: 600 15px/1 var(--f-body); text-decoration: none; border: 1.5px solid var(--ink);
+  cursor: pointer; background: transparent; color: var(--ink);
+}
+.btn.primary { background: var(--ink); color: var(--paper); }
+.btn:hover { border-color: var(--accent); }
+.btn.primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.ladder { width: 100%; height: auto; color: var(--ink); }
+.ladder .rail { stroke: var(--ink); stroke-width: 3; }
+.ladder .wire { stroke: var(--line-strong); stroke-width: 2; fill: none; }
+.ladder .flow { stroke: var(--accent); stroke-width: 2.5; fill: none; stroke-dasharray: 10 14; animation: flow 1.6s linear infinite; }
+.ladder .el { stroke: var(--ink); stroke-width: 2.5; fill: none; }
+.ladder .coil { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+.ladder text { font: 500 13px var(--f-mono); fill: var(--ink); letter-spacing: .04em; }
+.ladder text.addr { font-size: 11px; fill: var(--muted); }
+.ladder text.coil-t { fill: var(--accent); font-weight: 500; }
+@keyframes flow { to { stroke-dashoffset: -48; } }
+@media (prefers-reduced-motion: reduce) { .ladder .flow { animation: none; } }
+.ladder-cap { margin-top: 8px; text-align: right; }
+
+/* title block (cartiglio) */
+.titleblock { border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+.titleblock .wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.titleblock .cell { padding: 14px 16px; border-left: 1px solid var(--line-strong); min-width: 0; }
+.titleblock .cell:first-child { border-left: 0; padding-left: 0; }
+.titleblock .val { font: 600 1.15rem/1.25 var(--f-display); margin-top: 4px; }
+@media (max-width: 760px) {
+  .hero .wrap { grid-template-columns: minmax(0, 1fr); padding-block: 40px 28px; gap: 28px; }
+  .titleblock .wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .titleblock .cell:nth-child(3) { border-left: 0; padding-left: 0; }
+  .titleblock .cell:nth-child(n+3) { border-top: 1px solid var(--line-strong); }
+}
+
+/* ---------- sections ---------- */
+section.block { padding-block: 72px 24px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 32px; margin-bottom: 28px; }
+.sec-head h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; }
+.sec-head p { color: var(--muted); max-width: 52ch; margin-top: 8px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: 500 13px/1 var(--f-body); padding: 9px 13px; cursor: pointer;
+  border: 1px solid var(--line-strong); background: var(--panel); color: var(--ink);
+  display: inline-flex; gap: 8px; align-items: center;
+}
+.chip .n { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip[aria-pressed="true"] .n { color: var(--paper); opacity: .7; }
+
+.group { margin-top: 44px; }
+.group-head {
+  display: flex; align-items: baseline; gap: 14px; padding-bottom: 10px;
+  border-bottom: 1.5px solid var(--ink);
+}
+.group-head h3 { font-size: 1.5rem; font-weight: 600; }
+.group-head .label { margin-left: auto; }
+
+.proj {
+  display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 12px 36px;
+  padding: 28px 0; border-bottom: 1px solid var(--line);
+}
+.proj-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; }
+.code { font: 500 12px/1 var(--f-mono); letter-spacing: .08em; color: var(--accent); }
+.status {
+  font: 500 11px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase;
+  padding: 5px 8px; border-radius: 2px; display: inline-flex; gap: 6px; align-items: center;
+}
+.status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.status.ok { color: var(--ok); background: var(--ok-soft); }
+.status.wip { color: var(--warn); background: var(--warn-soft); }
+.proj h4 { font: 600 1.55rem/1.15 var(--f-display); margin: 0; text-wrap: balance; }
+.proj .sum { margin-top: 10px; max-width: 66ch; }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.stack span {
+  font: 400 12px/1 var(--f-mono); padding: 5px 7px; border: 1px solid var(--line);
+  color: var(--muted); background: var(--panel);
+}
+.repo { margin-top: 12px; }
+.repo a { font: 600 14px/1.4 var(--f-body); color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
+details.more { margin-top: 14px; max-width: 70ch; }
+details.more summary {
+  cursor: pointer; font: 600 14px/1.4 var(--f-body); color: var(--ink); list-style: none;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+details.more summary::-webkit-details-marker { display: none; }
+details.more summary::before {
+  content: "+"; font-family: var(--f-mono); width: 18px; height: 18px; display: inline-grid;
+  place-items: center; border: 1px solid var(--line-strong); font-size: 13px; line-height: 1;
+}
+details.more[open] summary::before { content: "−"; }
+details.more ul { margin: 12px 0 0; padding-left: 20px; color: var(--ink); }
+details.more li { margin: 6px 0; }
+details.more li::marker { color: var(--accent); }
+
+.plate {
+  align-self: start; border: 1.5px solid var(--ink); background: var(--panel);
+  font-variant-numeric: tabular-nums;
+}
+.plate .row { padding: 12px 14px; border-top: 1px solid var(--line); }
+.plate .row:first-child { border-top: 0; }
+.plate .v { font: 600 1.45rem/1.1 var(--f-display); }
+.plate .l { font-size: 13px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
+
+.gallery {
+  grid-column: 1 / -1; display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-top: 6px;
+}
+.gallery .side { display: grid; gap: 10px; }
+.gallery img { width: 100%; height: 100%; object-fit: cover; border: 1px solid var(--line); aspect-ratio: 16 / 9; }
+@media (max-width: 820px) {
+  .proj { grid-template-columns: minmax(0, 1fr); }
+  .plate { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .plate .row { border-top: 0; border-left: 1px solid var(--line); }
+  .plate .row:first-child { border-left: 0; }
+  .plate .v { font-size: 1.2rem; }
+  .gallery { grid-template-columns: minmax(0, 1fr); }
+  .gallery .side { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 460px) {
+  .plate { grid-template-columns: minmax(0, 1fr); }
+  .plate .row { border-left: 0; border-top: 1px solid var(--line); }
+  .plate .row:first-child { border-top: 0; }
+}
+
+/* skills */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1.5px solid var(--ink); }
+.skill { padding: 22px 22px 24px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.skill + .skill { padding-left: 22px; border-left: 1px solid var(--line); }
+.skill:nth-child(3n+1) { padding-left: 0; border-left: 0; }
+.skill h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 10px; }
+.skill ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.skill li { font-size: 15px; }
+@media (max-width: 820px) {
+  .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skill, .skill + .skill { padding: 20px 16px 20px 0; border-left: 0; }
+  .skill:nth-child(2n) { padding-left: 16px; border-left: 1px solid var(--line); }
+}
+@media (max-width: 500px) {
+  .skills { grid-template-columns: minmax(0, 1fr); }
+  .skill, .skill + .skill, .skill:nth-child(2n) { padding: 18px 0; border-left: 0; }
+}
+
+.method { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 40px; }
+.method div { border-top: 3px solid var(--accent); padding-top: 14px; }
+.method h3 { font-size: 1.2rem; font-weight: 600; }
+.method p { margin-top: 6px; color: var(--muted); font-size: 15px; }
+@media (max-width: 760px) { .method { grid-template-columns: minmax(0, 1fr); } }
+
+/* contact */
+.contact { border: 1.5px solid var(--ink); background: var(--panel); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
+.contact .intro { padding: 32px; border-right: 1px solid var(--line); }
+.contact .intro h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 700; }
+.contact .intro p { margin-top: 12px; color: var(--muted); max-width: 44ch; }
+.contact .lines { display: grid; }
+.cline { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 18px 24px; border-top: 1px solid var(--line); }
+.cline:first-child { border-top: 0; }
+.cline .val { font: 400 15px/1.4 var(--f-mono); overflow-wrap: anywhere; }
+.cline .val a { text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+.cline .val a:hover { border-color: var(--accent); }
+.copy {
+  font: 500 12px/1 var(--f-mono); padding: 7px 10px; border: 1px solid var(--line-strong);
+  background: transparent; color: var(--ink); cursor: pointer; min-width: 74px;
+}
+@media (max-width: 760px) {
+  .contact { grid-template-columns: minmax(0, 1fr); }
+  .contact .intro { border-right: 0; border-bottom: 1px solid var(--line); padding: 24px; }
+  .cline { grid-template-columns: minmax(0, 1fr) auto; padding: 16px 20px; }
+  .cline .label { grid-column: 1 / -1; }
+}
+
+footer { padding-block: 40px 56px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; color: var(--muted); font-size: 14px; }
+footer p { max-width: 70ch; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="mono-mark" href="#top"><span class="box">RN</span><span>Riccardo Nembri</span></a>
+    <nav aria-label="Sezioni">
+      <a href="#progetti" data-i18n="nav.projects">Progetti</a>
+      <a href="#competenze" data-i18n="nav.skills">Competenze</a>
+      <a href="#contatti" data-i18n="nav.contact">Contatti</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Lingua / Language">
+      <button type="button" id="lang-it" data-lang="it" aria-pressed="true">IT</button>
+      <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="label" data-i18n="hero.eyebrow">Portfolio progetti</p>
+        <h1>Riccardo Nembri</h1>
+        <p class="role" data-i18n="hero.role">Tecnico OT/IT · Automazione industriale e software</p>
+        <p class="pitch" data-i18n="hero.pitch">Lavoro tra il quadro elettrico e il codice. Metto in servizio PLC Siemens, robot ABB e Stäubli e sistemi di visione Keyence, e scrivo il software che toglie il lavoro ripetitivo a chi progetta, produce e fa assistenza.</p>
+        <div class="cta">
+          <a class="btn primary" href="#progetti" data-i18n="hero.cta1">Vedi i progetti</a>
+          <a class="btn" href="#contatti" data-i18n="hero.cta2">Contattami</a>
+        </div>
+      </div>
+      <figure style="margin:0">
+        <svg class="ladder" viewBox="0 0 520 250" role="img" aria-labelledby="ladder-t">
+          <title id="ladder-t">Schema ladder: campo, PLC, software e AI alimentano la produzione</title>
+          <line class="rail" x1="12" y1="20" x2="12" y2="230"/>
+          <line class="rail" x1="508" y1="20" x2="508" y2="230"/>
+          <!-- rung 1 -->
+          <path class="wire" d="M12 80 H70 M100 80 H170 M200 80 H270 M300 80 H400 M440 80 H508"/>
+          <path class="flow" d="M12 80 H70 M100 80 H170 M200 80 H270 M300 80 H400 M440 80 H508"/>
+          <g class="el">
+            <path d="M70 62 V98 M100 62 V98"/>
+            <path d="M170 62 V98 M200 62 V98"/>
+            <path d="M270 62 V98 M300 62 V98"/>
+          </g>
+          <path class="coil" d="M408 62 Q396 80 408 98 M432 62 Q444 80 432 98"/>
+          <text x="85" y="48" text-anchor="middle">I/O</text>
+          <text x="185" y="48" text-anchor="middle">PLC</text>
+          <text x="285" y="48" text-anchor="middle" data-i18n="ladder.sw">SOFTWARE</text>
+          <text class="coil-t" x="420" y="48" text-anchor="middle" data-i18n="ladder.coil">PRODUZIONE</text>
+          <text class="addr" x="85" y="118" text-anchor="middle">%I0.0</text>
+          <text class="addr" x="185" y="118" text-anchor="middle">S7-1500</text>
+          <text class="addr" x="285" y="118" text-anchor="middle">PY · C# · JS</text>
+          <text class="addr" x="420" y="118" text-anchor="middle">%Q0.0</text>
+          <!-- rung 2: AI in parallel with software -->
+          <path class="wire" d="M240 80 V170 H270 M300 170 H330 V80"/>
+          <path class="flow" d="M240 80 V170 H270 M300 170 H330 V80"/>
+          <path class="el" d="M270 152 V188 M300 152 V188"/>
+          <text x="285" y="214" text-anchor="middle">AI</text>
+          <text class="addr" x="285" y="232" text-anchor="middle">AGENT · MCP</text>
+        </svg>
+        <figcaption class="label ladder-cap" data-i18n="ladder.cap">Rung 1 · Dal campo alla produzione</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="titleblock">
+    <div class="wrap">
+      <div class="cell"><p class="label" data-i18n="tb.role.l">Ruolo</p><p class="val" data-i18n="tb.role.v">Tecnico OT/IT</p></div>
+      <div class="cell"><p class="label" data-i18n="tb.sector.l">Settore</p><p class="val" data-i18n="tb.sector.v">Macchine automatiche di assemblaggio</p></div>
+      <div class="cell"><p class="label" data-i18n="tb.proj.l">Progetti</p><p class="val" id="tb-count">18</p></div>
+      <div class="cell"><p class="label" data-i18n="tb.lang.l">Lingue</p><p class="val" data-i18n="tb.lang.v">Italiano, inglese</p></div>
+    </div>
+  </div>
+
+  <section class="block" id="progetti">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2 data-i18n="proj.title">Progetti</h2>
+          <p data-i18n="proj.sub">Lavori in produzione, strumenti interni e progetti personali. I progetti aziendali sono descritti senza nomi di clienti né codici commessa.</p>
+        </div>
+        <div class="filters" id="filters" role="group" aria-label="Filtro"></div>
+      </div>
+      <div id="groups"></div>
+    </div>
+  </section>
+
+  <section class="block" id="competenze">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2 data-i18n="sk.title">Competenze</h2>
+          <p data-i18n="sk.sub">Gli strumenti che uso davvero nei progetti qui sopra.</p>
+        </div>
+      </div>
+      <div class="skills" id="skills"></div>
+      <div class="method" id="method"></div>
+    </div>
+  </section>
+
+  <section class="block" id="contatti">
+    <div class="wrap">
+      <div class="contact">
+        <div class="intro">
+          <h2 data-i18n="ct.title">Parliamone</h2>
+          <p data-i18n="ct.sub">Disponibile per colloqui. Su richiesta posso mostrare dal vivo gli strumenti e il codice dei progetti personali.</p>
+        </div>
+        <div class="lines" id="contact-lines"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p data-i18n="ft.note">I progetti svolti in azienda sono presentati in forma anonima: clienti, codici commessa, indirizzi di rete e dati interni sono omessi.</p>
+    <p>© <span id="year">2026</span> Riccardo Nembri</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   CONTATTI: sostituisci questi valori prima di pubblicare.
+   Lascia "" per nascondere una riga.
+   ============================================================ */
+const CONTACT = {
+  email:    "riccardonembri01@gmail.com",
+  linkedin: "https://www.linkedin.com/in/riccardo-nembri",
+  github:   "https://github.com/Nembri01",
+  phone:    ""
+};
+
+const UI = {
+  it: {
+    "nav.projects": "Progetti", "nav.skills": "Competenze", "nav.contact": "Contatti",
+    "hero.eyebrow": "Portfolio progetti",
+    "hero.role": "Tecnico OT/IT · Automazione industriale e software",
+    "hero.pitch": "Lavoro tra il quadro elettrico e il codice. Metto in servizio PLC Siemens, robot ABB e Stäubli e sistemi di visione Keyence, e scrivo il software che toglie il lavoro ripetitivo a chi progetta, produce e fa assistenza.",
+    "hero.cta1": "Vedi i progetti", "hero.cta2": "Contattami",
+    "ladder.sw": "SOFTWARE", "ladder.coil": "PRODUZIONE", "ladder.cap": "Rung 1 · Dal campo alla produzione",
+    "tb.role.l": "Ruolo", "tb.role.v": "Tecnico OT/IT",
+    "tb.sector.l": "Settore", "tb.sector.v": "Macchine automatiche di assemblaggio",
+    "tb.proj.l": "Progetti", "tb.lang.l": "Lingue", "tb.lang.v": "Italiano, inglese",
+    "proj.title": "Progetti",
+    "proj.sub": "Lavori in produzione, strumenti interni e progetti personali. I progetti aziendali sono descritti senza nomi di clienti né codici commessa.",
+    "filter.all": "Tutti", "more": "Dettagli tecnici", "repo": "Codice su GitHub",
+    "sk.title": "Competenze", "sk.sub": "Gli strumenti che uso davvero nei progetti qui sopra.",
+    "ct.title": "Parliamone",
+    "ct.sub": "Disponibile per colloqui. Su richiesta posso mostrare dal vivo gli strumenti e il codice dei progetti personali.",
+    "ct.email": "Email", "ct.linkedin": "LinkedIn", "ct.github": "GitHub", "ct.phone": "Telefono",
+    "copy": "Copia", "copied": "Copiato",
+    "ft.note": "I progetti svolti in azienda sono presentati in forma anonima: clienti, codici commessa, indirizzi di rete e dati interni sono omessi.",
+    "projects.n": "progetti"
+  },
+  en: {
+    "nav.projects": "Projects", "nav.skills": "Skills", "nav.contact": "Contact",
+    "hero.eyebrow": "Project portfolio",
+    "hero.role": "OT/IT Technician · Industrial automation and software",
+    "hero.pitch": "I work between the control cabinet and the code. I commission Siemens PLCs, ABB and Stäubli robots and Keyence vision systems, and I write the software that takes repetitive work off the people who design, build and support the machines.",
+    "hero.cta1": "See the projects", "hero.cta2": "Get in touch",
+    "ladder.sw": "SOFTWARE", "ladder.coil": "PRODUCTION", "ladder.cap": "Rung 1 · From the field to production",
+    "tb.role.l": "Role", "tb.role.v": "OT/IT Technician",
+    "tb.sector.l": "Industry", "tb.sector.v": "Automated assembly machines",
+    "tb.proj.l": "Projects", "tb.lang.l": "Languages", "tb.lang.v": "Italian, English",
+    "proj.title": "Projects",
+    "proj.sub": "Production work, internal tools and personal projects. Company projects are described without customer names or job numbers.",
+    "filter.all": "All", "more": "Technical details", "repo": "Code on GitHub",
+    "sk.title": "Skills", "sk.sub": "The tools I actually use in the projects above.",
+    "ct.title": "Let's talk",
+    "ct.sub": "Open to interviews. On request I can demo the tools live and walk through the code of my personal projects.",
+    "ct.email": "Email", "ct.linkedin": "LinkedIn", "ct.github": "GitHub", "ct.phone": "Phone",
+    "copy": "Copy", "copied": "Copied",
+    "ft.note": "Work done for my employer is shown anonymised: customers, job numbers, network addresses and internal data are left out.",
+    "projects.n": "projects"
+  }
+};
+
+const CATS = [
+  { id: "plc",      code: "PLC", it: "Automazione e PLC",          en: "Automation and PLC" },
+  { id: "factory",  code: "SW",  it: "Software per la produzione", en: "Software for production" },
+  { id: "ai",       code: "AI",  it: "AI e agenti",                en: "AI and agents" },
+  { id: "personal", code: "LAB", it: "Progetti personali",         en: "Personal projects" }
+];
+
+const STATUS = {
+  prod:     { c: "ok",  it: "In produzione",        en: "In production" },
+  use:      { c: "ok",  it: "In uso",               en: "In use" },
+  daily:    { c: "ok",  it: "In uso quotidiano",    en: "In daily use" },
+  jobs3:    { c: "ok",  it: "Usato su 3 commesse",  en: "Used on 3 jobs" },
+  done:     { c: "ok",  it: "Consegnato",           en: "Delivered" },
+  job:      { c: "ok",  it: "Su commessa",          en: "Customer job" },
+  beta:     { c: "ok",  it: "Google Play · test chiuso", en: "Google Play · closed test" },
+  paper:    { c: "ok",  it: "Paper trading attivo", en: "Paper trading live" },
+  pilot:    { c: "wip", it: "Pilota",               en: "Pilot" },
+  demo:     { c: "wip", it: "Demo consegnata",      en: "Demo delivered" },
+  proto:    { c: "wip", it: "Prototipo",            en: "Prototype" }
+};
+
+/* f = nameplate figures [value, it label, en label] */
+const PROJECTS = [
+  /* ---------------- PLC ---------------- */
+  {
+    cat: "plc", status: "prod",
+    it: { t: "Configurazione hardware TIA Portal generata da Excel",
+          s: "Dalla divisione I/O e dalla distinta in Excel al progetto TIA Portal V20 completo e compilato, senza configurare a mano un solo dispositivo PROFINET.",
+          d: ["Python legge divisione I/O, distinta, stazioni e isole valvole e produce un modello JSON della macchina",
+              "PowerShell pilota TIA Openness (Siemens.Engineering) e legge i file GSD dei dispositivi",
+              "Genera CPU 1516F, 3 nodi ET200SP con master AS-i, moduli F-DI/F-DQ e IO-Link, isole valvole Festo CPX-AP, 21 azionamenti Festo CMMT-AS con PROFIsafe, sensori Keyence, 2 robot ABB OmniCore e 9 pulsantiere SIRIUS ACT",
+              "Ha scovato in distinta un codice CPU non fail-safe su un progetto con F-CPU",
+              "Lascia volutamente all'operatore solo le impostazioni di sicurezza e utenti"] },
+    en: { t: "TIA Portal hardware configuration generated from Excel",
+          s: "From the Excel I/O list and bill of materials to a complete, compiled TIA Portal V20 project, without configuring a single PROFINET device by hand.",
+          d: ["Python reads the I/O split, BOM, stations and valve islands and builds a JSON model of the machine",
+              "PowerShell drives TIA Openness (Siemens.Engineering) and reads the device GSD files",
+              "Generates a 1516F CPU, 3 ET200SP nodes with AS-i masters, F-DI/F-DQ and IO-Link modules, Festo CPX-AP valve islands, 21 Festo CMMT-AS drives with PROFIsafe, Keyence sensors, 2 ABB OmniCore robots and 9 SIRIUS ACT push-button panels",
+              "Caught a non-fail-safe CPU part number in the BOM of an F-CPU design",
+              "Leaves only security and user settings to a human, on purpose"] },
+    f: [["44", "dispositivi PROFINET", "PROFINET devices"], ["~2 min", "build e compilazione headless", "headless build and compile"], ["1", "errore di distinta trovato", "BOM error caught"]],
+    k: ["Python", "PowerShell", "TIA Openness", "TIA Portal V20", "PROFINET", "PROFIsafe"]
+  },
+  {
+    cat: "plc", status: "jobs3",
+    it: { t: "Conversione automatica HMI da Lenze a Siemens WinCC",
+          s: "Toolchain che converte i progetti VisiWinNET dei pannelli Lenze in progetti WinCC Comfort per TIA Portal V20, importati in automatico tramite Openness. Rifare un pannello a mano richiedeva settimane.",
+          d: ["Parser Python dei file di progetto Lenze (.vwn, .lng, .sfc) e delle risorse grafiche, con trasparenza ricostruita",
+              "Generazione SimaticML: 46 pagine, 10 tabelle variabili, 752 allarmi, ricetta da 56 elementi",
+              "Tool C# su TIA Openness per import headless, export, grafiche e compilazione",
+              "Re-layout automatico delle pagine da 800×600 a 1280×800 secondo lo standard interno, con correzione di sovrapposizioni e z-order",
+              "Riconosce le modifiche fatte a mano, così una nuova esecuzione non le sovrascrive",
+              "Report finale con ciò che resta da completare a mano (autorizzazioni, timer)"] },
+    en: { t: "Automatic HMI conversion from Lenze to Siemens WinCC",
+          s: "A toolchain that converts Lenze VisiWinNET panel projects into WinCC Comfort projects for TIA Portal V20, imported automatically through Openness. Rebuilding a panel by hand used to take weeks.",
+          d: ["Python parser for Lenze project files (.vwn, .lng, .sfc) and graphic resources, with transparency rebuilt",
+              "SimaticML generation: 46 screens, 10 tag tables, 752 alarms, a 56-element recipe",
+              "C# tools on TIA Openness for headless import, export, graphics and compile",
+              "Automatic re-layout from 800×600 to 1280×800 following the in-house standard, fixing overlaps and z-order",
+              "Detects manual edits so a re-run does not overwrite them",
+              "Final report listing what is left to finish by hand (authorisations, timers)"] },
+    f: [["46", "pagine convertite", "screens converted"], ["752", "allarmi in 4 lingue", "alarms in 4 languages"], ["3", "pannelli convertiti", "panels converted"]],
+    k: ["Python", "C#", "TIA Openness", "WinCC Comfort", "SimaticML", "Lenze VisiWinNET"]
+  },
+  {
+    cat: "plc", status: "use",
+    it: { t: "Schemi pneumatici generati in DXF",
+          s: "Generatore che produce l'intero fascicolo di schemi pneumatici di una macchina partendo dai dati di commessa, nel rispetto dello standard grafico aziendale.",
+          d: ["Standard grafico ricostruito dagli schemi esistenti: cartiglio, simboli, indirizzi PLC, rimandi tra fogli",
+              "Legge i file Excel di commessa per intestazione di colonna, quindi resiste al riordino delle colonne",
+              "Genera copertina, legenda, schema generale, isole valvole, pinze e distinte pneumatiche",
+              "Anteprime PDF per il controllo prima del rilascio"] },
+    en: { t: "Pneumatic schematics generated as DXF",
+          s: "A generator that produces a machine's full set of pneumatic schematics from the job data, following the company drawing standard.",
+          d: ["Drawing standard reverse-engineered from existing schematics: title block, symbols, PLC addresses, cross-sheet references",
+              "Reads the job Excel files by column header, so reordered columns don't break it",
+              "Generates cover, legend, overview, valve islands, grippers and pneumatic BOMs",
+              "PDF previews for checking before release"] },
+    f: [["17–26", "fogli per macchina", "sheets per machine"], ["~3.100", "righe di Python", "lines of Python"], ["DXF", "R2010, apribile in ogni CAD", "R2010, opens in any CAD"]],
+    k: ["Python", "ezdxf", "openpyxl", "DXF"]
+  },
+  {
+    cat: "plc", status: "proto",
+    it: { t: "Pannello HMI per tavola rotante a 4 stazioni",
+          s: "Interfaccia operatore moderna in stile WinCC Unified scritta in WPF, per una macchina con carico manuale, marcatura a inchiostro, marcatura laser e scarico con robot e visione.",
+          d: ["Panoramica con i pulsanti stazione posizionati sull'immagine della macchina",
+              "Allarmi attivi e storico, I/O, ricette, statistiche di turno e lotto, usura componenti",
+              "Impostazioni (utenti, morse, homing di 9 assi) e diagnostica della CPU 1517",
+              "Traduzioni IT/EN/DE/FR (~230 chiavi), nessuna libreria esterna",
+              "Nato come visualizzatore 3D di un modello CAD alleggerito da 9,2 milioni a circa 200 mila triangoli",
+              "Prossimo passo: collegamento al PLC S7"] },
+    en: { t: "HMI panel for a 4-station rotary table",
+          s: "A modern operator interface in the WinCC Unified style, written in WPF, for a machine with manual loading, ink marking, laser marking and robot unloading with vision.",
+          d: ["Overview screen with station buttons placed on the machine image",
+              "Active and historical alarms, I/O, recipes, shift and batch statistics, component wear",
+              "Settings (users, vises, homing of 9 axes) and CPU 1517 diagnostics",
+              "IT/EN/DE/FR translations (~230 keys), no external libraries",
+              "Started as a 3D viewer for a CAD model reduced from 9.2 million to about 200 thousand triangles",
+              "Next step: connecting it to the S7 PLC"] },
+    f: [["~5.400", "righe C#/XAML", "lines of C#/XAML"], ["4", "lingue", "languages"], ["~1 s", "tempo di avvio", "startup time"]],
+    k: ["C#", "WPF", ".NET 9", "XAML"]
+  },
+  {
+    cat: "plc", status: "done",
+    it: { t: "Archiviazione immagini dalle telecamere Keyence",
+          s: "Servizio Windows che raccoglie le immagini inviate via FTP dalle telecamere di visione, le converte e le archivia con una numerazione progressiva che non si ripete mai.",
+          d: ["Capisce quando il file FTP è davvero completo: dimensione stabile e poi spostamento atomico",
+              "Conversione BMP→JPG su file temporaneo e rinomina atomica; contatore salvato a ogni scatto",
+              "File corrotti in una cartella errori, ripresa dopo crash, istanza singola",
+              "Attività pianificata con riavvio automatico; più telecamere, una configurazione ciascuna",
+              "Test end-to-end che simula scritture FTP a pezzi e immagini corrotte",
+              "Pacchetto su chiavetta USB con Python incluso per il PC del cliente"] },
+    en: { t: "Image archiving for Keyence vision cameras",
+          s: "A Windows service that collects the images vision cameras send over FTP, converts them and archives them with a progressive number that is never reused.",
+          d: ["Knows when an FTP file is really complete: stable size, then an atomic move",
+              "BMP→JPG conversion to a temp file and atomic rename; the counter is saved on every shot",
+              "Corrupt files go to an error folder, crash recovery, single instance",
+              "Scheduled task with auto-restart; several cameras, one config each",
+              "End-to-end test that simulates chunked FTP writes and corrupt images",
+              "USB-stick package with Python bundled for the customer's PC"] },
+    f: [["0", "numeri duplicati, scritture atomiche", "duplicate numbers, atomic writes"], ["E2E", "test con FTP simulato", "test with simulated FTP"], ["USB", "installazione dal PC cliente", "install on the customer PC"]],
+    k: ["Python", "Pillow", "PowerShell", "FTP", "Keyence"]
+  },
+  {
+    cat: "plc", status: "job",
+    it: { t: "Mappa I/O e UDT per tre robot Stäubli",
+          s: "Mappa dei segnali ricavata dai programmi VAL3 reali dei robot e tipo dati PROFINET per l'interfaccia tra PLC e tre robot Stäubli CS9.",
+          d: ["Lettura dei file .dtx dei programmi VAL3 per estrarre i segnali effettivamente usati",
+              "Tabella I/O in Excel e UDT importabile in TIA Portal",
+              "Meno errori di mappatura durante la messa in servizio"] },
+    en: { t: "I/O map and UDT for three Stäubli robots",
+          s: "A signal map extracted from the robots' real VAL3 programs and a PROFINET data type for the interface between the PLC and three Stäubli CS9 robots.",
+          d: ["Reads the .dtx files of the VAL3 programs to extract the signals actually used",
+              "Excel I/O table and a UDT ready to import into TIA Portal",
+              "Fewer mapping errors during commissioning"] },
+    f: [["3", "robot Stäubli CS9", "Stäubli CS9 robots"], ["VAL3", "segnali dai programmi reali", "signals from real programs"], ["UDT", "pronto per TIA Portal", "ready for TIA Portal"]],
+    k: ["Stäubli VAL3", "TIA Portal", "PROFINET", "Excel"]
+  },
+
+  /* ---------------- FACTORY SOFTWARE ---------------- */
+  {
+    cat: "factory", status: "use",
+    it: { t: "Automazione delle distinte materiali",
+          s: "Dalla distinta macchina dell'ERP alla distinta d'acquisto e alla lista dei materiali di bordo macchina, con abbinamento automatico tra cavi e componenti e tra sensori e cilindri.",
+          d: ["Divide la distinta in elettrica, pneumatica, Festo, finecorsa e cavi",
+              "Ordine delle regole: prima quelle verificate da una persona, poi configurazione, standard e verifica sul catalogo online",
+              "Abbina i sensori di posizione ai cilindri Festo, Metal Work e SMC e sceglie i cavi Balluff e ifm",
+              "Registro di revisione con approvazione umana: nessun codice inventato, tutto tracciato sul PLM",
+              "Report delle competenze per reparto"] },
+    en: { t: "Bill of materials automation",
+          s: "From the ERP machine BOM to the purchasing BOM and the list of on-board materials, matching cables to components and sensors to cylinders automatically.",
+          d: ["Splits the BOM into electrical, pneumatic, Festo, limit switches and cables",
+              "Rule priority: human-verified rules first, then configuration, standards and online catalog checks",
+              "Matches position sensors to Festo, Metal Work and SMC cylinders and picks Balluff and ifm cables",
+              "Review register with human approval: no invented part numbers, everything traced to the PLM",
+              "Responsibility report per department"] },
+    f: [["11.545", "codici in anagrafica gestiti", "item codes handled"], ["82", "sensori risolti da catalogo", "sensors resolved from catalogs"], ["597", "righe nel test di regressione", "rows in the regression test"]],
+    k: ["Python", "openpyxl", "Excel", "Festo API", "Claude Code"]
+  },
+  {
+    cat: "factory", status: "use",
+    it: { t: "Dal disegno al gestionale con un tasto",
+          s: "Una webcam fotografa il disegno cartaceo, l'OCR locale legge il codice articolo e l'app compila da sola il filtro del report nel MES.",
+          d: ["Cerca il codice prima nel cartiglio, poi in tutto il foglio, anche con il disegno ruotato",
+              "Pre-elaborazione dell'immagine con OpenCV; OCR di Windows, senza cloud",
+              "Browser integrato (WebView2) che compila la dashboard tramite la sua API JavaScript, con metodi di riserva",
+              "Input da webcam, file, appunti o a mano; registro CSV di ogni lettura",
+              "Banco di prova dell'OCR su disegni sintetici"] },
+    en: { t: "From paper drawing to the MES in one keypress",
+          s: "A webcam photographs the paper drawing, on-device OCR reads the part number and the app fills in the MES report filter by itself.",
+          d: ["Looks for the code in the title block first, then the whole sheet, even when the drawing is rotated",
+              "Image pre-processing with OpenCV; Windows OCR, no cloud",
+              "Embedded browser (WebView2) that fills the dashboard through its JavaScript API, with fallbacks",
+              "Input from webcam, file, clipboard or by hand; CSV log of every read",
+              "OCR test bench on synthetic drawings"] },
+    f: [["1", "tasto al posto della ricerca a mano", "keypress instead of manual search"], ["4", "orientamenti del foglio", "sheet orientations"], ["0", "dati inviati in cloud", "data sent to the cloud"]],
+    k: ["C#", ".NET 9", "WPF", "OpenCvSharp", "Windows OCR", "WebView2"]
+  },
+  {
+    cat: "factory", status: "use",
+    it: { t: "Registro degli interventi di assistenza remota",
+          s: "App desktop che sostituisce il foglio Excel condiviso usato per registrare l'assistenza remota ai clienti, con più tecnici al lavoro in contemporanea da PC diversi.",
+          d: ["Mini widget sempre in primo piano con timer, pausa automatica su inattività e scorciatoie",
+              "Ricerca, filtri, riepilogo per commessa, export CSV e PDF",
+              "SQLite su cartella di rete reso affidabile: timeout, retry con backoff, inserimenti idempotenti",
+              "Coda offline, ripristino del timer dopo un crash, backup giornalieri",
+              "Archivio PDF mensile prodotto da un'attività pianificata"] },
+    en: { t: "Remote support job log",
+          s: "A desktop app that replaces the shared Excel sheet used to log remote customer support, with several technicians working at once from different PCs.",
+          d: ["Always-on-top mini widget with a timer, idle auto-pause and shortcuts",
+              "Search, filters, per-job summary, CSV and PDF export",
+              "SQLite on a network share made reliable: timeouts, retry with backoff, idempotent inserts",
+              "Offline queue, timer recovery after a crash, daily backups",
+              "Monthly PDF archive produced by a scheduled task"] },
+    f: [["~3.500", "righe C#/XAML", "lines of C#/XAML"], ["SMB", "database condiviso in rete", "shared network database"], ["1", "exe, nessuna installazione", "exe, no install"]],
+    k: ["C#", ".NET 9", "WPF", "SQLite", "PDFsharp"]
+  },
+  {
+    cat: "factory", status: "pilot",
+    it: { t: "Generatore di programmi CNC Fanuc",
+          s: "Pagina offline che scrive G-code Fanuc 0i-F per un centro di lavoro Doosan nello stile del programmatore d'officina. Le regole dell'officina sono scritte una volta e valgono per ogni pezzo.",
+          d: ["Spianatura, contornature con raggi e smussi, spallamenti, tasche, fori fresati, asole, fori filettati e lamati, fori su circonferenza",
+              "Sceglie l'utensile dalla tabella T1–T40 e i dati di taglio per alluminio, acciaio e inox",
+              "Simulatore con anteprima del percorso, stima del tempo ciclo e controlli di sicurezza: rapidi nel materiale, H diverso dall'utensile in G43, G41 lasciato attivo, giri oltre il limite, utensile sotto le morse",
+              "Modalità che controlla i programmi già scritti a mano",
+              "La scheda del pezzo si ricava dal disegno con l'aiuto di Claude",
+              "Suite di test automatici; primo pezzo reale in prova macchina"] },
+    en: { t: "Fanuc CNC program generator",
+          s: "An offline page that writes Fanuc 0i-F G-code for a Doosan machining centre in the style of the shop's CNC programmer. Shop rules are written once and apply to every part.",
+          d: ["Facing, contours with fillets and chamfers, shoulders, pockets, milled holes, slots, tapped and counterbored holes, bolt circles",
+              "Picks tools from the T1–T40 table and cutting data for aluminium, steel and stainless",
+              "Simulator with toolpath preview, cycle-time estimate and safety checks: rapids into material, H not matching the tool in G43, G41 left on, spindle over limit, tool below the vise jaws",
+              "A mode that audits hand-written programs",
+              "The part sheet is derived from the drawing with Claude's help",
+              "Automated test suite; first real part in machine trial"] },
+    f: [["~2.950", "righe JavaScript", "lines of JavaScript"], ["40", "utensili gestiti", "tools managed"], ["7+", "controlli di sicurezza nel simulatore", "safety checks in the simulator"]],
+    k: ["JavaScript", "Node.js", "Fanuc G-code", "Python"]
+  },
+  {
+    cat: "factory", status: "done",
+    it: { t: "Manuali CE di uso e manutenzione",
+          s: "Script che ricostruiscono i manuali di uso e manutenzione delle macchine con un nuovo layout, estraendo testi e figure dai manuali precedenti.",
+          d: ["Estrazione di testi e figure dai PDF esistenti",
+              "Impaginazione con ReportLab: copertine, indici, gruppi di distinta, tavole",
+              "Dichiarazione CE e dichiarazione di incorporazione per le quasi-macchine",
+              "Macchine diverse: assemblaggio raccordi, montaggio O-ring, linee di marcatura e ispezione con robot"] },
+    en: { t: "CE operation and maintenance manuals",
+          s: "Scripts that rebuild machine operation and maintenance manuals in a new layout, extracting text and figures from the previous manuals.",
+          d: ["Text and figure extraction from existing PDFs",
+              "Layout with ReportLab: covers, indexes, BOM groups, drawings",
+              "CE declaration and declaration of incorporation for partly completed machinery",
+              "Different machines: fitting assembly, O-ring assembly, marking and inspection lines with robots"] },
+    f: [["5", "manuali consegnati", "manuals delivered"], ["PDF", "generati da codice", "generated from code"], ["CE", "dichiarazioni incluse", "declarations included"]],
+    k: ["Python", "ReportLab", "pdfplumber", "Pillow"]
+  },
+  {
+    cat: "factory", status: "done",
+    it: { t: "Dichiarazione doganale USA Section 232",
+          s: "Preparazione della dichiarazione sul contenuto di alluminio e acciaio di un componente esportato negli USA, con calcolo documentato e modulo ufficiale compilato da codice.",
+          d: ["Stima geometrica della massa di alluminio e valorizzazione su quotazioni di riferimento e cambio BCE",
+              "Ricostruito il modulo compilabile mancante nel PDF ufficiale e aggirato un bug di codifica della libreria",
+              "Dichiarazione Word e matrice dei campi generate da codice",
+              "Ipotesi e incertezze documentate per chi firma"] },
+    en: { t: "US Section 232 customs declaration",
+          s: "Preparing the aluminium and steel content declaration for a component exported to the US, with a documented calculation and the official form filled in by code.",
+          d: ["Geometric estimate of aluminium mass and valuation on benchmark prices and the ECB exchange rate",
+              "Rebuilt the missing fillable form in the official PDF and worked around a library encoding bug",
+              "Word declaration and field matrix generated by code",
+              "Assumptions and uncertainty documented for the signer"] },
+    f: [["1", "modulo ufficiale compilato", "official form filled"], ["LME", "quotazioni di riferimento", "benchmark prices"], ["0,40 kg", "alluminio stimato su 1,2 kg", "aluminium estimated out of 1.2 kg"]],
+    k: ["Python", "pypdf", "Node.js", "docx"]
+  },
+
+  /* ---------------- AI ---------------- */
+  {
+    cat: "ai", status: "daily",
+    it: { t: "Plancia: un desktop guidato da un agente AI",
+          s: "Applicazione Electron a tutto schermo che prende il posto del desktop di Windows. Chiedi all'agente, anche a voce, e lui lavora sul PC: apre programmi, esegue comandi, usa mouse e tastiera.",
+          d: ["Agente Claude Code sempre attivo con tre modalità: sola lettura, chiedi, autonomo. I comandi di sola lettura vengono riconosciuti e approvati da soli",
+              "Sa quale finestra stavi usando, per esempio TIA Portal, e risponde nel contesto",
+              "Server MCP proprio su un bridge locale protetto da token: promemoria, note, appunti, screenshot, notifiche, avvio app",
+              "Controllo di mouse e tastiera con permesso per singola applicazione; download su PLC o robot ed email chiedono sempre conferma",
+              "Secondo monitor: app, CPU/RAM/rete, calendario Microsoft 365 con pulsante Teams, finestre aperte",
+              "Userscript che compilano la dichiarazione ore nel MES ripartendola su più commesse"] },
+    en: { t: "Plancia: a desktop driven by an AI agent",
+          s: "A full-screen Electron app that takes the place of the Windows desktop. Ask the agent, by voice too, and it works on the PC: opens programs, runs commands, uses mouse and keyboard.",
+          d: ["Always-on Claude Code agent with three modes: read-only, ask, autonomous. Read-only commands are recognised and approved automatically",
+              "Knows which window you were using, TIA Portal for example, and answers in context",
+              "Its own MCP server on a token-protected local bridge: reminders, notes, clipboard, screenshots, notifications, app launch",
+              "Mouse and keyboard control with per-app permission; PLC or robot downloads and emails always ask for confirmation",
+              "Second monitor: apps, CPU/RAM/network, Microsoft 365 calendar with a Teams button, open windows",
+              "Userscripts that fill in the MES hour declaration, split across several jobs"] },
+    f: [["~6.550", "righe JavaScript", "lines of JavaScript"], ["MCP", "server scritto da me", "server I wrote"], ["3", "livelli di permesso", "permission levels"]],
+    k: ["Electron", "Node.js", "Claude Code", "MCP", "Microsoft Graph", "Win32 FFI"]
+  },
+  {
+    cat: "ai", status: "use",
+    it: { t: "Accesso sicuro al PLM per agenti AI",
+          s: "Livello di accesso in sola lettura al database del PLM aziendale, perché script e agenti AI possano interrogare i dati di produzione senza rischi.",
+          d: ["Tre difese: regola di permesso sull'agente, wrapper che rifiuta qualsiasi DML o DDL, login SQL con il solo ruolo db_datareader",
+              "Letture senza lock sul database di produzione",
+              "Documentazione ricostruita del plugin di trasferimento dati PLM→ERP e delle integrazioni CAD (Creo, Inventor, SolidWorks, EPLAN)",
+              "Audit di sicurezza con le criticità trovate e le correzioni proposte"] },
+    en: { t: "Safe PLM access for AI agents",
+          s: "A read-only access layer for the company PLM database, so scripts and AI agents can query production data without risk.",
+          d: ["Three defences: a permission rule on the agent, a wrapper that rejects any DML or DDL, and a SQL login with only db_datareader",
+              "Lock-free reads on the production database",
+              "Reverse-engineered docs for the PLM→ERP transfer plugin and the CAD integrations (Creo, Inventor, SolidWorks, EPLAN)",
+              "Security audit with findings and proposed fixes"] },
+    f: [["3", "livelli di protezione", "layers of protection"], ["0", "scritture possibili", "writes possible"], ["5.700", "righe di manuale indicizzate", "manual lines indexed"]],
+    k: ["SQL Server", "T-SQL", "Bash", "sqlcmd", "Claude Code"]
+  },
+  {
+    cat: "ai", status: "demo",
+    it: { t: "Assistente offline per l'operatore macchina",
+          s: "Assistente installato sul PC del pannello che risponde alle domande dell'operatore (avvio, arresto, ripartenza dopo emergenza, allarmi) senza bisogno di internet.",
+          d: ["Web app Python locale con installer da chiavetta che include Python e tutte le librerie",
+              "Domande rapide sui tasti funzione F1–F12",
+              "Pensato per PC industriali senza connessione"] },
+    en: { t: "Offline assistant for the machine operator",
+          s: "An assistant installed on the panel PC that answers operator questions (start, stop, restart after an emergency stop, alarms) with no internet needed.",
+          d: ["Local Python web app with a USB installer that bundles Python and all libraries",
+              "Quick questions on function keys F1–F12",
+              "Built for industrial PCs with no connection"] },
+    f: [["100%", "offline", "offline"], ["F1–F12", "domande rapide", "quick questions"], ["USB", "installazione", "install"]],
+    k: ["Python", "Web app locale"]
+  },
+
+  /* ---------------- PERSONAL ---------------- */
+  {
+    cat: "personal", status: "beta", gallery: true, repo: "https://github.com/Nembri01/ASHFALL",
+    it: { t: "ASHFALL: Wasteland Survival",
+          s: "Survivor-shooter per Android, iOS e browser scritto in JavaScript puro su Canvas: nessun motore di gioco e nessun asset esterno. Grafica procedurale e audio sintetizzato.",
+          d: ["6 modalità, 8 sopravvissuti, 42 obiettivi, prestigio e negozio permanente, italiano e inglese",
+              "Audio generato con WebAudio; si gioca offline",
+              "Capacitor 6 per Android e iOS, build iOS in CI su Codemagic, pubblicità AdMob",
+              "Bilanciamento verificato con simulazioni",
+              "Harness Node + Puppeteer: 29 test, 8 audit (economia, combattimento, traduzioni) e screenshot automatici per gli store"] },
+    en: { t: "ASHFALL: Wasteland Survival",
+          s: "A survivor-shooter for Android, iOS and the browser, written in plain JavaScript on Canvas: no game engine and no external assets. Procedural graphics and synthesised audio.",
+          d: ["6 modes, 8 survivors, 42 achievements, prestige and a permanent shop, Italian and English",
+              "Audio generated with WebAudio; plays offline",
+              "Capacitor 6 for Android and iOS, iOS builds in CI on Codemagic, AdMob ads",
+              "Balance checked with simulations",
+              "Node + Puppeteer harness: 29 tests, 8 audits (economy, combat, translations) and automated store screenshots"] },
+    f: [["15 · 14 · 12", "armi · boss · biomi", "weapons · bosses · biomes"], ["37", "test e audit automatici", "automated tests and audits"], ["0", "asset esterni", "external assets"]],
+    k: ["JavaScript", "Canvas", "WebAudio", "Capacitor", "Node.js", "Puppeteer"]
+  },
+  {
+    cat: "personal", status: "paper",
+    it: { t: "Bot di trading con backtest rigoroso",
+          s: "Progetto di ricerca su strategie crypto con dati pubblici: nessun ordine reale, solo paper trading. Lo scopo è misurare in modo onesto se una strategia funziona davvero.",
+          d: ["5 strategie, compresa una documentata come fallimento",
+              "Walk-forward su 24 finestre, test di permutazione e placebo con correzione di Holm, intervalli bootstrap, stress sui costi",
+              "Replica su 10 asset mai usati in sviluppo",
+              "Esperimenti pre-registrati, con correzioni dei miei errori pubblicate",
+              "Paper trading ogni 4 ore con report HTML e notifiche Telegram"] },
+    en: { t: "Trading bot with rigorous backtesting",
+          s: "A research project on crypto strategies using public data: no real orders, paper trading only. The goal is to measure honestly whether a strategy really works.",
+          d: ["5 strategies, including one documented as a failure",
+              "Walk-forward over 24 windows, permutation and placebo tests with Holm correction, bootstrap intervals, cost stress tests",
+              "Replication on 10 assets never used in development",
+              "Pre-registered experiments, with corrections to my own mistakes published",
+              "Paper trading every 4 hours with HTML reports and Telegram notifications"] },
+    f: [["134", "test automatici", "automated tests"], ["24", "finestre walk-forward", "walk-forward windows"], ["0", "ordini reali", "real orders"]],
+    k: ["Python", "pytest", "Statistica", "Telegram API"]
+  },
+  {
+    cat: "personal", status: "proto",
+    it: { t: "Siti dimostrativi per due brand immaginari",
+          s: "Due siti one-page per agenzie di consulenza AI inventate, fatti per sperimentare animazione e interazione nel browser.",
+          d: ["Rete neurale interattiva su canvas, metriche live con sparkline SVG, chat dimostrativa",
+              "Hero con zoom e particelle, sezione orizzontale bloccata allo scroll, pulsanti magnetici",
+              "Effetti pesanti disattivati su mobile e con riduzione del movimento attiva"] },
+    en: { t: "Demo sites for two fictional brands",
+          s: "Two one-page sites for made-up AI consulting agencies, built to experiment with animation and interaction in the browser.",
+          d: ["Interactive neural-network canvas, live metrics with SVG sparklines, a demo chat",
+              "Zoom hero with particles, pinned horizontal scroll section, magnetic buttons",
+              "Heavy effects switched off on mobile and when reduced motion is on"] },
+    f: [["2", "siti completi", "complete sites"], ["GSAP", "animazioni allo scroll", "scroll animations"], ["0", "build step", "build steps"]],
+    k: ["HTML", "CSS", "JavaScript", "GSAP", "Lenis"]
+  }
+];
+
+const SKILLS = [
+  { it: "PLC e HMI", en: "PLC and HMI", items: ["Siemens TIA Portal V20", "S7-1500, F-CPU", "WinCC Comfort / Unified", "TIA Openness API", "PROFINET, PROFIsafe", "ET200SP, AS-i, IO-Link"] },
+  { it: "Robot e visione", en: "Robots and vision", items: ["ABB OmniCore", "Stäubli CS9, VAL3", "Keyence (IV4, telecamere)", "Cognex", "Messa in servizio / Commissioning"] },
+  { it: "Campo e officina", en: "Field and workshop", items: ["Festo CPX-AP, CMMT-AS", "Schemi elettrici e pneumatici", "Distinte e PLM", "CNC Fanuc 0i-F", "Documentazione CE"] },
+  { it: "Software", en: "Software", items: ["Python", "C#, .NET 9, WPF", "JavaScript, Node.js, Electron", "PowerShell", "SQL Server, SQLite"] },
+  { it: "AI e automazione", en: "AI and automation", items: ["Claude Code", "Server MCP / MCP servers", "Agenti con permessi / Permissioned agents", "OCR, OpenCV", "Approvazione umana / Human-in-the-loop"] },
+  { it: "IT", en: "IT", items: ["Windows, Active Directory", "Microsoft 365, Graph API", "Reti di fabbrica / Plant networks", "Git"] }
+];
+
+const METHOD = {
+  it: [
+    ["Sicurezza prima di tutto", "Accesso ai dati di produzione in sola lettura, conferma esplicita prima di scaricare su PLC o robot, nessun codice inventato in distinta."],
+    ["Quello che si ripete diventa uno strumento", "Configurazioni, conversioni, schemi e distinte che si rifacevano a mano su ogni commessa ora si generano."],
+    ["Verificato prima di consegnarlo", "Test automatici, simulatori e un report onesto di ciò che resta da fare a mano."]
+  ],
+  en: [
+    ["Safety first", "Read-only access to production data, explicit confirmation before any PLC or robot download, no invented part numbers in a BOM."],
+    ["What repeats becomes a tool", "Configurations, conversions, schematics and BOMs that were redone by hand on every job are now generated."],
+    ["Checked before it ships", "Automated tests, simulators and an honest report of what is left to do by hand."]
+  ]
+};
+
+/* ---------------- rendering ---------------- */
+let lang = "it";
+let filter = "all";
+try { const s = localStorage.getItem("pf-lang"); if (s === "en" || s === "it") lang = s; } catch (e) {}
+try { const s = localStorage.getItem("pf-filter"); if (s) filter = s; } catch (e) {}
+
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+const t = k => UI[lang][k] ?? k;
+
+function renderStatic() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(n => { n.textContent = t(n.dataset.i18n); });
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  $("#tb-count").textContent = PROJECTS.length;
+}
+
+function renderFilters() {
+  const box = $("#filters"); box.innerHTML = "";
+  const opts = [{ id: "all", label: t("filter.all"), n: PROJECTS.length }]
+    .concat(CATS.map(c => ({ id: c.id, label: c[lang], n: PROJECTS.filter(p => p.cat === c.id).length })));
+  opts.forEach(o => {
+    const b = el("button", "chip", `${o.label} <span class="n">${o.n}</span>`);
+    b.type = "button"; b.id = "f-" + o.id;
+    b.setAttribute("aria-pressed", String(filter === o.id));
+    b.addEventListener("click", () => { filter = o.id; try { localStorage.setItem("pf-filter", filter); } catch (e) {} renderFilters(); renderProjects(); });
+    box.appendChild(b);
+  });
+}
+
+function projectRow(p, cat) {
+  const L = p[lang], st = STATUS[p.status];
+  const row = el("article", "proj");
+  const main = el("div");
+  main.style.minWidth = "0";
+  main.appendChild(el("div", "proj-meta", `<span class="code">${cat.code}</span><span class="status ${st.c}">${st[lang]}</span>`));
+  main.appendChild(el("h4", null, L.t));
+  main.appendChild(el("p", "sum", L.s));
+  main.appendChild(el("div", "stack", p.k.map(x => `<span>${x}</span>`).join("")));
+  if (p.repo) main.appendChild(el("p", "repo", `<a href="${p.repo}" target="_blank" rel="noopener">${t("repo")} →</a>`));
+  const det = el("details", "more");
+  det.innerHTML = `<summary>${t("more")}</summary><ul>${L.d.map(x => `<li>${x}</li>`).join("")}</ul>`;
+  main.appendChild(det);
+  row.appendChild(main);
+  const plate = el("div", "plate");
+  p.f.forEach(f => plate.appendChild(el("div", "row", `<div class="v">${f[0]}</div><div class="l">${lang === "it" ? f[1] : f[2]}</div>`)));
+  row.appendChild(plate);
+  if (p.gallery) {
+    const alt = lang === "it" ? ["Partita in modalità Orda", "Combattimento contro un boss", "Schermata dell'arsenale"]
+                              : ["Horde mode gameplay", "Boss fight", "Arsenal screen"];
+    row.appendChild(el("div", "gallery",
+      `<img src="assets/ashfall-horde.webp" alt="${alt[0]}" width="900" height="506" loading="lazy">
+       <div class="side"><img src="assets/ashfall-boss.webp" alt="${alt[1]}" width="900" height="506" loading="lazy">
+       <img src="assets/ashfall-arsenal.webp" alt="${alt[2]}" width="900" height="506" loading="lazy"></div>`));
+  }
+  return row;
+}
+
+function renderProjects() {
+  const box = $("#groups"); box.innerHTML = "";
+  CATS.filter(c => filter === "all" || filter === c.id).forEach(c => {
+    const list = PROJECTS.filter(p => p.cat === c.id);
+    const g = el("div", "group");
+    g.appendChild(el("div", "group-head", `<h3>${c[lang]}</h3><span class="label">${list.length} ${t("projects.n")}</span>`));
+    list.forEach(p => g.appendChild(projectRow(p, c)));
+    box.appendChild(g);
+  });
+}
+
+function renderSkills() {
+  $("#skills").innerHTML = SKILLS.map(s => `<div class="skill"><h3>${s[lang]}</h3><ul>${s.items.map(i => {
+    const parts = i.split(" / "); return `<li>${parts.length === 2 ? (lang === "it" ? parts[0] : parts[1]) : i}</li>`;
+  }).join("")}</ul></div>`).join("");
+  $("#method").innerHTML = METHOD[lang].map(m => `<div><h3>${m[0]}</h3><p>${m[1]}</p></div>`).join("");
+}
+
+function renderContact() {
+  const box = $("#contact-lines"); box.innerHTML = "";
+  const rows = [
+    ["email", CONTACT.email, CONTACT.email ? "mailto:" + CONTACT.email : ""],
+    ["linkedin", CONTACT.linkedin.replace(/^https?:\/\/(www\.)?/, ""), CONTACT.linkedin],
+    ["github", CONTACT.github.replace(/^https?:\/\//, ""), CONTACT.github],
+    ["phone", CONTACT.phone, ""]
+  ].filter(r => r[1]);
+  rows.forEach(([key, shown, href], i) => {
+    const line = el("div", "cline");
+    line.innerHTML = `<span class="label">${t("ct." + key)}</span>
+      <span class="val">${href ? `<a href="${href}" target="_blank" rel="noopener">${shown}</a>` : shown}</span>`;
+    const b = el("button", "copy", t("copy")); b.type = "button"; b.id = "copy-" + key;
+    b.addEventListener("click", () => {
+      const done = () => { b.textContent = t("copied"); setTimeout(() => b.textContent = t("copy"), 1600); };
+      const fallback = () => { const r = document.createRange(); r.selectNodeContents(line.querySelector(".val")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+      try { navigator.clipboard.writeText(key === "linkedin" || key === "github" ? href : shown).then(done, fallback); } catch (e) { fallback(); }
+    });
+    line.appendChild(b);
+    box.appendChild(line);
+  });
+}
+
+function renderAll() { renderStatic(); renderFilters(); renderProjects(); renderSkills(); renderContact(); }
+
+document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => {
+  lang = b.dataset.lang; try { localStorage.setItem("pf-lang", lang); } catch (e) {} renderAll();
+}));
+$("#year").textContent = new Date().getFullYear();
+renderAll();
+</script>
+<!--PAGE-END-->
+</body>
+</html>
